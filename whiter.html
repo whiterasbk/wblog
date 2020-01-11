@@ -128,9 +128,10 @@
 
 	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
 	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
+	<script src="js/markdown-it.js"></script>
 	<script src="js/vue.js"></script>
 	<script src="js/vue-router.js"></script>
-	<script src="https://cdn.bootcss.com/marked/0.7.0/marked.js"></script>
+	<!-- <script src="https://cdn.bootcss.com/marked/0.7.0/marked.js"></script> -->
 	<script>
 		let routes = [
 			{
@@ -201,7 +202,12 @@
 		$.get('https://whiterasbk.github.io/wblog/src/r.md', function(data) {
 		
 			// $("#preview").innerHTML = marked(data);
-			document.getElementById('preview').innerHTML = marked(data);
+			// var md = window.markdownit();
+			
+
+			let md = window.markdownit();
+			var result = md.render(data);
+			document.getElementById('preview').innerHTML = result
 		});
 
 		
