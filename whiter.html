@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>白客瞎写东西的地方</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="css/bootsrtap.css"> -->
+</head>
+<body>
+
+	<div id="vue_public_scop">
+
+
+		<div class="navbar navbar-inverse" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<router-link class="navbar-brand" to="/">
+						<img alt="Logo" src="...">
+
+					</router-link>
+					<router-link class="navbar-brand" to="/">
+						<span>whiter</span>		
+					</router-link>			
+				</div>
+
+				<div id="top_navbar-links">
+					<ul class="nav navbar-nav">
+						<li @click="navbar_nav_li_click" class="active">
+							<router-link to="/index">
+								<span>首页</span>
+							</router-link>
+						</li>
+						<li @click="navbar_nav_li_click">
+							<router-link to="/all">
+								<span>归档</span>
+							</router-link>
+						</li>
+						<li @click="navbar_nav_li_click">
+							<router-link to="/classify">
+								<span>分类</span>
+							</router-link>
+						</li>
+						<li @click="navbar_nav_li_click">
+							<router-link to="/">
+								<span>**</span>
+							</router-link>
+						</li>						
+						<li @click="navbar_nav_li_click">
+							<router-link to="/studio">
+								<span>末影工作室</span>
+							</router-link>
+						</li>										
+					</ul>
+
+
+					<div>
+						<ul class="nav navbar-nav navbar-right">
+							<li @click="navbar_nav_li_click">
+								<router-link to="/about">
+									<span>关于</span>
+								</router-link>
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/contact">
+									<span>联系</span>
+								</router-link>
+							</li>							
+						</ul>
+					</div>
+
+				</div>
+
+				
+
+				<div id="nav-font">
+					<form @submit.prevent="on_navbar_search_submit" class="navbar-form navbar-right">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+
+						<button type="submit" class=" btn btn-default">搜索</button>
+					</form>
+				</div>
+
+				
+
+			</div>
+		</div>
+
+		<div class="container">
+			<router-view></router-view>
+		</div>
+		
+
+
+		<template></template>
+	</div>
+
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script>
+		let routes = [
+			{
+				path: "/",
+				component: {
+					template: '<div class=""> as {{ whiter }} </div>'
+				}
+			},
+
+			{
+				path: "/about",
+				component: {
+					template: `<div> aa: {{ whiter }} </div>`
+				}
+			},
+
+			// 404 
+			{
+				path: '*',
+				component: {
+					template: `<div class="well"> 404 not fun </div>`
+				}				
+			}
+		]
+
+		let public_opts = {
+			el: "#vue_public_scop",
+
+			data: {
+				whiter:2,
+			},
+
+			methods: {
+				navbar_nav_li_click: function(e){
+
+					let lis = $("#top_navbar-links").find('li');
+					for (let index = 0; index < lis.length; index ++) {
+						$(lis[index]).removeClass("active")
+					} 
+
+					$(e.currentTarget).addClass("active")
+
+				},
+
+				on_navbar_search_submit: function(e) {
+					
+				}
+
+			},
+
+			router: new VueRouter({routes: routes})
+		}
+
+		let vue_public_app = new Vue(public_opts);
+	</script>
+</body>
+</html>
