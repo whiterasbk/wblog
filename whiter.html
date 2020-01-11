@@ -6,6 +6,12 @@
 	<link rel="stylesheet" href="css/normalize.css">
 	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="css/bootsrtap.css"> -->
+	<style>
+		.logo-img {
+			max-width: 30px;
+			margin-top: -5px
+		}
+	</style>
 </head>
 <body>
 
@@ -14,12 +20,11 @@
 
 		<div class="navbar navbar-inverse" role="navigation">
 			<div class="container">
-				<div class="navbar-header">
-					<router-link class="navbar-brand" to="/">
-						<img alt="Logo" src="img/白客.jpg">
-
+				<div @click="on_logo_button_click" class="navbar-header">
+					<router-link class="navbar-brand" to="/index">
+						<img class="logo-img img-circle" alt="Logo" src="img/whiter.jpg">
 					</router-link>
-					<router-link class="navbar-brand" to="/">
+					<router-link class="navbar-brand" to="/index">
 						<span>whiter</span>		
 					</router-link>			
 				</div>
@@ -73,14 +78,31 @@
 
 				
 
-				<div id="nav-font">
-					<form @submit.prevent="on_navbar_search_submit" class="navbar-form navbar-right">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
+				<div id="nav-font" class="dropdown">
 
-						<button type="submit" class=" btn btn-default">搜索</button>
-					</form>
+				
+					<div class="navbar-form navbar-right">
+
+						<div class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<form @submit.prevent="on_navbar_search_submit">
+								<div class="form-group">
+									zx<input type="text" class="form-control" placeholder="Search">
+								</div>
+
+								<button type="submit" class="btn btn-default">搜索</button>
+							</form>
+						</div>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+						</ul>	
+					</div>
+					
+
+
 				</div>
 
 				
@@ -89,6 +111,13 @@
 		</div>
 
 		<div class="container">
+
+		
+    	<div id="preview"> </div>
+    	<textarea name="" id="id" cols="30" rows="10"></textarea>
+   
+   
+
 			<router-view></router-view>
 		</div>
 		
@@ -98,8 +127,10 @@
 	</div>
 
 	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
 	<script src="js/vue.js"></script>
 	<script src="js/vue-router.js"></script>
+	<script src="https://cdn.bootcss.com/marked/0.7.0/marked.js"></script>
 	<script>
 		let routes = [
 			{
@@ -146,6 +177,15 @@
 
 				on_navbar_search_submit: function(e) {
 					
+				},
+
+				on_logo_button_click: function (e) {
+					let lis = $("#top_navbar-links").find('li');
+					for (let index = 0; index < lis.length; index ++) {
+						$(lis[index]).removeClass("active")
+					}
+
+					$(lis[0]).addClass("active")		
 				}
 
 			},
@@ -155,5 +195,17 @@
 
 		let vue_public_app = new Vue(public_opts);
 	</script>
+
+	<script>
+		
+		$.get('https://whiterasbk.github.io/wblog/index.md', function(data) {
+		
+			// $("#preview").innerHTML = marked(data);
+			document.getElementById('preview').innerHTML = marked(data);
+		});
+
+		
+ 
+	</script>	
 </body>
 </html>
