@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>白客瞎写东西的地方</title>
-	<link rel="stylesheet" href="css/normalize.css">
+	<!-- <link rel="stylesheet" href="css/normalize.css"> -->
 	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="css/bootsrtap.css"> -->
 	<style>
@@ -113,12 +113,11 @@
 		<div class="container">
 
 		
-    	<div id="preview"> </div>
-    	<textarea name="" id="id" cols="30" rows="10"></textarea>
-   
-   
+    		<div id="markdownit-view"></div>
 
 			<router-view></router-view>
+
+
 		</div>
 		
 
@@ -126,8 +125,8 @@
 		<template></template>
 	</div>
 
-	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
-	<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.js"></script>
 	<script src="js/markdown-it.js"></script>
 	<script src="js/vue.js"></script>
 	<script src="js/vue-router.js"></script>
@@ -199,15 +198,16 @@
 
 	<script>
 		
-		$.get('https://whiterasbk.github.io/wblog/src/r.md', function(data) {
+		$.get('https://whiterasbk.github.io/wblog/res/test.md', function(data) {
 		
 			// $("#preview").innerHTML = marked(data);
 			// var md = window.markdownit();
 			
+			$("#markdownit-view").html(window.markdownit().render('# data'));
 
-			let md = window.markdownit();
-			var result = md.render(data);
-			document.getElementById('preview').innerHTML = result
+			// let md = window.markdownit();
+			// var result = md.render(data);
+			// document.getElementById('preview').innerHTML = result
 		});
 
 		
