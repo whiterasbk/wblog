@@ -11,6 +11,8 @@
 			max-width: 30px;
 			margin-top: -5px
 		}
+
+
 	</style>
 </head>
 <body>
@@ -21,108 +23,144 @@
 		<div class="navbar navbar-inverse" role="navigation">
 			<div class="container">
 				<div @click="on_logo_button_click" class="navbar-header">
+
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+
+
 					<router-link class="navbar-brand" to="/index">
 						<img class="logo-img img-circle" alt="Logo" src="img/whiter.jpg">
 					</router-link>
 					<router-link class="navbar-brand" to="/index">
 						<span>whiter</span>		
-					</router-link>			
+					</router-link>	
+
 				</div>
 
-				<div id="top_navbar-links">
-					<ul class="nav navbar-nav">
-						<li @click="navbar_nav_li_click" class="active">
-							<router-link to="/index">
-								<span>首页</span>
-							</router-link>
-						</li>
-						<li @click="navbar_nav_li_click">
-							<router-link to="/all">
-								<span>归档</span>
-							</router-link>
-						</li>
-						<li @click="navbar_nav_li_click">
-							<router-link to="/classify">
-								<span>分类</span>
-							</router-link>
-						</li>
-						<li @click="navbar_nav_li_click">
-							<router-link to="/">
-								<span>**</span>
-							</router-link>
-						</li>						
-						<li @click="navbar_nav_li_click">
-							<router-link to="/studio">
-								<span>末影工作室</span>
-							</router-link>
-						</li>										
-					</ul>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-
-					<div>
-						<ul class="nav navbar-nav navbar-right">
-							<li @click="navbar_nav_li_click">
-								<router-link to="/about">
-									<span>关于</span>
+					<div id="top_navbar-links">
+						<ul class="nav navbar-nav">
+							<li @click="navbar_nav_li_click" class="active">
+								<router-link to="/index">
+									<span>首页</span>
 								</router-link>
 							</li>
 							<li @click="navbar_nav_li_click">
-								<router-link to="/contact">
-									<span>联系</span>
+								<router-link to="/all">
+									<span>归档</span>
 								</router-link>
-							</li>							
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/classify">
+									<span>分类</span>
+								</router-link>
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/">
+									<span>**</span>
+								</router-link>
+							</li>						
+							<li @click="navbar_nav_li_click">
+								<router-link to="/studio">
+									<span>末影工作室</span>
+								</router-link>
+							</li>										
 						</ul>
-					</div>
 
-				</div>
 
-				
-
-				<div id="nav-font" class="dropdown">
-
-				
-					<div class="navbar-form navbar-right">
-
-						<div class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<form @submit.prevent="on_navbar_search_submit">
-								<div class="form-group">
-									zx<input type="text" class="form-control" placeholder="Search">
-								</div>
-
-								<button type="submit" class="btn btn-default">搜索</button>
-							</form>
+						<div>
+							<ul class="nav navbar-nav navbar-right">
+								<li @click="navbar_nav_li_click">
+									<router-link to="/about">
+										<span>关于</span>
+									</router-link>
+								</li>
+								<li @click="navbar_nav_li_click">
+									<router-link to="/contact">
+										<span>联系</span>
+									</router-link>
+								</li>							
+							</ul>
 						</div>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>	
+
 					</div>
-					
+
+					<div id="nav-font" class="dropdown">
 
 
+						<div class="navbar-form navbar-right">
+
+							<div class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<form @submit.prevent="on_navbar_search_submit">
+									<div class="form-group">
+										zx<input type="text" class="form-control" placeholder="Search">
+									</div>
+
+									<button type="submit" class="btn btn-default">搜索</button>
+								</form>
+							</div>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+							</ul>	
+						</div>
+
+					</div>
 				</div>
-
 				
-
 			</div>
 		</div>
 
 		<div class="container">
 
-		
-    		<div id="markdownit-view"></div>
+			<router-link class="btn btn-danger btn-block" to="/article/1">
+				<span>关于1</span>
+			</router-link>
 
+
+			
+			<div id="hidden-block">
+				<div class="alert alert-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>Warning!</strong>文章加载中hidden-block Better check yourself, you're not looking too good.
+				</div>
+			</div>
 			<router-view></router-view>
+			<!-- <div id="markdownit-view"></div> -->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 		</div>
 		
+			
+			
 
 
-		<template></template>
+
+		<template>
+			
+
+		</template>
 	</div>
 
 	<script src="js/jquery.js"></script>
@@ -131,87 +169,9 @@
 	<script src="js/vue.js"></script>
 	<script src="js/vue-router.js"></script>
 	<!-- <script src="https://cdn.bootcss.com/marked/0.7.0/marked.js"></script> -->
-	<script>
-		let routes = [
-			{
-				path: "/",
-				component: {
-					template: '<div class=""> as {{ whiter }} </div>'
-				}
-			},
+	<script src="js/public.js"></script>	
+	<script src="js/main.js"></script>
 
-			{
-				path: "/about",
-				component: {
-					template: `<div> aa: {{ whiter }} </div>`
-				}
-			},
-
-			// 404 
-			{
-				path: '*',
-				component: {
-					template: `<div class="well"> 404 not fun </div>`
-				}				
-			}
-		]
-
-		let public_opts = {
-			el: "#vue_public_scop",
-
-			data: {
-				whiter:2,
-			},
-
-			methods: {
-				navbar_nav_li_click: function(e){
-
-					let lis = $("#top_navbar-links").find('li');
-					for (let index = 0; index < lis.length; index ++) {
-						$(lis[index]).removeClass("active")
-					} 
-
-					$(e.currentTarget).addClass("active")
-
-				},
-
-				on_navbar_search_submit: function(e) {
-					
-				},
-
-				on_logo_button_click: function (e) {
-					let lis = $("#top_navbar-links").find('li');
-					for (let index = 0; index < lis.length; index ++) {
-						$(lis[index]).removeClass("active")
-					}
-
-					$(lis[0]).addClass("active")		
-				}
-
-			},
-
-			router: new VueRouter({routes: routes})
-		}
-
-		let vue_public_app = new Vue(public_opts);
-	</script>
-
-	<script>
-		
-		$.get('https://whiterasbk.github.io/wblog/res/test.md', function(data) {
-		
-			// $("#preview").innerHTML = marked(data);
-			// var md = window.markdownit();
-			
-			$("#markdownit-view").html(window.markdownit().render(data));
-
-			// let md = window.markdownit();
-			// var result = md.render(data);
-			// document.getElementById('preview').innerHTML = result
-		});
-
-		
- 
-	</script>	
+	
 </body>
 </html>
