@@ -122,16 +122,17 @@
 
 		<div class="container">
 
-			<router-link class="btn btn-danger btn-block" to="/article/1">
+			<router-link class="btn btn-danger btn-block" to="/article/test.md">
 				<span>关于1</span>
 			</router-link>
 
 
-			
+
 			<div id="hidden-block">
 				<div class="alert alert-warning alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<strong>Warning!</strong>文章加载中hidden-block Better check yourself, you're not looking too good.
+					<strong>{{ hidden_block_title }}</strong>
+					{{ hidden_block_msg }}
 				</div>
 			</div>
 			<router-view></router-view>

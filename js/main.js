@@ -1,7 +1,7 @@
 
 
 
-let routes = [
+routes = [
 	{
 		path: "/",
 		component: {
@@ -29,9 +29,8 @@ let routes = [
 
 		beforeEnter: (to, from, next) => {
 
-			console.log(to);
+			
 
-			article.setout("#markdownit-view");
 			article.render(to.params.id);
 
 			next();
@@ -53,11 +52,13 @@ let routes = [
 	}
 ]
 
-let public_opts = {
+public_opts = {
 	el: "#vue_public_scop",
 
 	data: {
 		whiter:2,
+		hidden_block_title: '',
+		hidden_block_msg: ''
 	},
 
 	methods: {
@@ -90,26 +91,25 @@ let public_opts = {
 	router: new VueRouter({routes: routes})
 }
 
-let vue_public_app = new Vue(public_opts);
+vue_public_app = new Vue(public_opts);
 
 
 
 
 
-$("#hidden-block").show()
+$("#hidden-block").hide();
+// $.get('https://whiterasbk.github.io/wblog/res/test.md', function(data) {
 
-$.get('https://whiterasbk.github.io/wblog/res/test.md', function(data) {
-
-			// $("#preview").innerHTML = marked(data);
-			// var md = window.markdownit();
+// 			// $("#preview").innerHTML = marked(data);
+// 			// var md = window.markdownit();
 			
-			$("#markdownit-view").html(window.markdownit().render(data));
+// 			$("#markdownit-view").html(window.markdownit().render(data));
 
-			$("#hidden-block").slideUp('slow/400/fast', function() {
+// 			$("#hidden-block").slideUp('slow/400/fast', function() {
 
-			});
+// 			});
 
-			// let md = window.markdownit();
-			// var result = md.render(data);
-			// document.getElementById('preview').innerHTML = result
-		});
+// 			// let md = window.markdownit();
+// 			// var result = md.render(data);
+// 			// document.getElementById('preview').innerHTML = result
+// 		});
