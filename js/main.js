@@ -299,7 +299,6 @@ window.onload = function() {
 		dataType: 'json',
 	})
 	.done(function(data) {
-		p(data)
 		vue_public_app.article_list = data
 	})
 	.fail(function() {
