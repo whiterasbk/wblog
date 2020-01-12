@@ -60,7 +60,7 @@ See also:
 
 ### Simple
 
-```js
+```javascript
 // node.js, "classic" way:
 var MarkdownIt = require('markdown-it'),
     md = new MarkdownIt();
@@ -78,7 +78,7 @@ var result = md.render('# markdown-it rulezz!');
 
 Single line rendering, without paragraph wrap:
 
-```js
+```javascript
 var md = require('markdown-it')();
 var result = md.renderInline('__markdown-it__ rulezz!');
 ```
@@ -90,7 +90,7 @@ var result = md.renderInline('__markdown-it__ rulezz!');
 `"commonmark"`, `"zero"` or `"default"` (if skipped). See
 [API docs](https://markdown-it.github.io/markdown-it/#MarkdownIt.new) for more details.
 
-```js
+```javascript
 // commonmark mode
 var md = require('markdown-it')('commonmark');
 
@@ -133,7 +133,7 @@ var md = require('markdown-it')({
 
 ### Plugins load
 
-```js
+```javascript
 var md = require('markdown-it')()
             .use(plugin1)
             .use(plugin2, opts, ...)
@@ -145,7 +145,7 @@ var md = require('markdown-it')()
 
 Apply syntax highlighting to fenced code blocks with the `highlight` option:
 
-```js
+```javascript
 var hljs = require('highlight.js'); // https://highlightjs.org/
 
 // Actual default values
@@ -164,7 +164,7 @@ var md = require('markdown-it')({
 
 Or with full wrapper override (if you need assign class to `<pre>`):
 
-```js
+```javascript
 var hljs = require('highlight.js'); // https://highlightjs.org/
 
 // Actual default values
@@ -227,7 +227,7 @@ Via plugins:
 By default all rules are enabled, but can be restricted by options. On plugin
 load all its rules are enabled automatically.
 
-```js
+```javascript
 // Activate/deactivate rules, with curring
 var md = require('markdown-it')()
             .disable([ 'link', 'image' ])

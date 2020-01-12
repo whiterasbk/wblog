@@ -5,6 +5,7 @@
 	<title>白客瞎写东西的地方</title>
 	<!-- <link rel="stylesheet" href="css/normalize.css"> -->
 	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/highlight.js/default.css">
 	<!-- <link rel="stylesheet" href="css/bootsrtap.css"> -->
 	<style>
 		.logo-img {
@@ -128,7 +129,7 @@
 
 
 
-			<div id="hidden-block">
+			<div id="hidden-block" v-if="hidden_block">
 				<div class="alert alert-warning alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<strong>{{ hidden_block_title }}</strong>
@@ -165,6 +166,7 @@
 	</div>
 
 	<script src="js/jquery.js"></script>
+	<script src="js/highlight.pack.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/markdown-it.js"></script>
 	<script src="js/vue.js"></script>
