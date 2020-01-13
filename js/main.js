@@ -41,6 +41,30 @@ window.w_markdownit = markdownit({
 
 
 
+window.onload = function() {
+
+	
+
+	$.ajax({
+		url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
+		type: 'GET',
+		dataType: 'json',
+	})
+	.done(function(data) {
+		vue_public_app.article_list = data
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
+
+}
+
+
+
 var public_opts = {
 	el: "#vue_public_scop",
 
@@ -49,7 +73,12 @@ var public_opts = {
 		hidden_block_title: '',
 		hidden_block_msg: '',
 		hidden_block: false,
-		article_list: null,
+		article_list: {},
+
+		current_article: {
+			classic: "",
+			detail: {}, 
+		}
 	},
 
 	methods: {
@@ -104,7 +133,7 @@ var public_opts = {
 			component: {
 				template: `
 
-				<div>
+				<div v-if="">
 					<ol class="breadcrumb">
   						<li><a href="#">{{ toString($router.app.article_list)  }}</a></li>
   						<li><a href="#">Library</a></li>
@@ -120,7 +149,8 @@ var public_opts = {
 
 			beforeEnter: (to, from, next) => {
 				
-				new article(to.params.id).render();
+				new article(to.params.id).render(router.app);
+
 
 
 				next();
@@ -214,13 +244,91 @@ function article(articleid){
 		article_index_path: "https://whiterasbk.github.io/wblog/res/article-index.json"
 	};
 
+
+	let load_list = function (ctx){
+		$.ajax({
+			url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
+			type: 'GET',
+			dataType: 'json',
+		})
+		.done(function(data) {
+			try {
+
+
+				for (let i in data) {
+
+					for (let k in data[i]) {
+						if (data[i][k]['id'] == articleid || data[i][k]['title'] == articleid) {
+							ctx.current_article.classic = i;
+							ctx.current_article.detail = data[i];
+
+						
+
+							
+						
+						}
+						
+						p(data[i][k])
+						p(data[i][k]['id'] == articleid || data[i][k]['title'] == articleid)
+					}
+					
+
+					window.vue_public_app.article_list = data
+
+					// p(data[i])
+					
+					p(window.vue_public_app.article_list)			
+				}
+			} catch (e) {
+				p(e)
+			}
+			
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("acomplete");
+		});		
+	}
+
+
+
+	// let search_article_by_id = function(key, ctx){ 
+	// 	try {
+
+	// 		load_list(ctx);
+	// 		p ( 123+   ctx.article_list)
+
+	// 		for (let c_classic in ctx.article_list) {
+	// 			if (ctx.article_list[c_classic]['id'] == key || ctx.article_list[c_classic]['title'] == key) {
+	// 				ctx.current_article.classic = c_classic;
+	// 				ctx.current_article.detail = ctx.article_list[c_classic];
+
+	// 				p(c_classic)
+	// 				p(ctx.article_list[c_classic])
+
+	// 				return true;
+	// 			}
+	// 		}
+	// 	} catch (_) {
+	// 		p(_)
+	// 	}
+
+	// 	return false;
+	// }
+
+	this.setout = function(element) {
+		_outputviewid = $(element);
+	}		
+
 	this.render = function(ctx){
 
 		try {
-			vue_public_app.hidden_block_msg = "文章加载中..."
+			ctx.hidden_block_msg = "文章加载中..."
 
-			vue_public_app.hidden_block = true;
-		
+			ctx.hidden_block = true;
+
 
 			$(_hidden_block).slideDown();
 		} catch(_) {
@@ -239,13 +347,17 @@ function article(articleid){
 		// 	// console.log(window.markdownit().render(data));
 		// 	setTimeout(1*1000, function() {
 		// 		$(_hidden_block).slideUp('slow/400/fast');
-				
+
 		// 	})
 
 		// 	window.vue_public_app.hidden_block_msg = ""
 
 		// });
+		// 
+		
 
+
+		load_list(ctx)
 
 
 		$.ajax({
@@ -259,36 +371,33 @@ function article(articleid){
 						// console.log(window.markdownit().render(data));
 						setTimeout(function() {
 							$(_hidden_block).slideUp('slow/400/fast');
-							window.vue_public_app.hidden_block = false;
-							window.vue_public_app.hidden_block_msg = "";
+							ctx.hidden_block = false;
+							ctx.hidden_block_msg = "";
 
 						}, 2 * 1000);
 
 						
 
-	
+
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						window.vue_public_app.hidden_block_msg = "你要找的文章自己插上翅膀飞走了";
+						ctx.hidden_block_msg = "你要找的文章自己插上翅膀飞走了";
 					},
 
 					complete: function(XMLHttpRequest, textStatus) {
                         this; // 调用本次AJAX请求时传递的options参数
 
 
-                	}
-        });
+                    }
+                });
 
 
-        
+
 
 
 		// vue_public_app.$router.replace();
 	};
 
-	this.setout = function(element) {
-		_outputviewid = $(element);
-	}		
 }
 
 
@@ -297,25 +406,3 @@ function p(argument) {
 	console.log(argument);
 }
 
-
-window.onload = function() {
-
-	
-
-	$.ajax({
-		url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
-		type: 'GET',
-		dataType: 'json',
-	})
-	.done(function(data) {
-		vue_public_app.article_list = data
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
-	
-
-}
