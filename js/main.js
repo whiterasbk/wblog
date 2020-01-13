@@ -21,6 +21,23 @@
 
 	
 // }
+// 
+window.hljs.initHighlightingOnLoad();
+
+
+window.w_markdownit = markdownit({
+	highlight: function (str, lang) {
+		if (lang && hljs.getLanguage(lang)) {
+			try {
+				return '<pre class="hljs"><code>' +
+				hljs.highlight(lang, str, true).value +
+				'</code></pre>';
+			} catch (__) {}
+		}
+
+		return '<pre class="hljs"><code>' + w_markdownit.utils.escapeHtml(str) + '</code></pre>';
+	}
+});
 
 
 
@@ -66,7 +83,7 @@ var public_opts = {
 		{
 			path: "/",
 			component: {
-				template: '<div class=""> as {{ whiter }} </div>',
+				template: '<div class=""> as {{ $router.app.whiter  }} </div>',
 			},
 
 			beforeEnter: (to, from, next) => {
@@ -89,7 +106,7 @@ var public_opts = {
 
 				<div>
 					<ol class="breadcrumb">
-  						<li><a href="#">Home</a></li>
+  						<li><a href="#">{{ toString($router.app.article_list)  }}</a></li>
   						<li><a href="#">Library</a></li>
   						<li class="active">Data</li>
 					</ol>
@@ -199,13 +216,18 @@ function article(articleid){
 
 	this.render = function(ctx){
 
+		try {
+			vue_public_app.hidden_block_msg = "文章加载中..."
 
-		vue_public_app.hidden_block_msg = "文章加载中..."
-
-		vue_public_app.hidden_block = true;
+			vue_public_app.hidden_block = true;
 		
 
-		$(_hidden_block).slideDown();
+			$(_hidden_block).slideDown();
+		} catch(_) {
+			p(_)
+		}
+
+		
 
 		// $.get(manager.article_root_path + articleid, function(data) {
 
@@ -278,20 +300,7 @@ function p(argument) {
 
 window.onload = function() {
 
-	hljs.initHighlightingOnLoad();
-
-
-	window.w_markdownit = markdownit({
-		highlight: function (str, lang) {
-			if (lang && hljs.getLanguage(lang)) {
-				try {
-					return hljs.highlight(lang, str).value;
-				} catch (__) {}
-			}
-
-    	return '';
-		}
-	});
+	
 
 	$.ajax({
 		url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
