@@ -140,18 +140,20 @@ var public_opts = {
 						</ol>
 						<div>
 
-							<div v-if="$router.app.current_article.title == ''" class="page-header">
+							<div v-if="$router.app.current_article.detail.title != ''" class="page-header">
   								<h1> {{ $router.app.current_article.detail.title }} <small> {{ $router.app.current_article.detail['sub-title'] }}</small></h1>
 							</div>
 							
 							<span v-for="lable in $router.app.current_article.detail.lables" class="label label-info article-label">{{ lable }}</span>
+
+							<span class="label label-success article-label"> {{ $router.app.current_article.detail.date }} </span>
 						</div>
 						
 
-						<div id="markdownit-view"></div>
+						<div id="article-display-view"></div>
 					</div>
 				</div>
-							
+						
 
 				
 
@@ -168,7 +170,7 @@ var public_opts = {
 				let app = router.app
 				let vals = {
 					apath: 'https://whiterasbk.github.io/wblog/res/article/',
-					output_view: "#markdownit-view",
+					output_view: "#article-display-view",
 					msgbox: "#article_load_msgbox",
 				}
 
