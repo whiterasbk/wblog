@@ -138,8 +138,13 @@ var public_opts = {
   							<li><a href="#">{{ $router.app.current_article.classic }}</a></li>
   							<li class="active">{{ $router.app.current_article.detail.title }}</li>
 						</ol>
-						<div v-for="lable in $router.app.current_article.detail.lables">
-							<div class="label label-default">{{ lable }}</div>
+						<div>
+
+							<div v-if="$router.app.current_article.title == ''" class="page-header">
+  								<h1> {{ $router.app.current_article.detail.title }} <small> {{ $router.app.current_article.detail['sub-title'] }}</small></h1>
+							</div>
+							
+							<span v-for="lable in $router.app.current_article.detail.lables" class="label label-info article-label">{{ lable }}</span>
 						</div>
 						
 
@@ -159,6 +164,7 @@ var public_opts = {
 				// new article(to.params.id).render(router.app);
 
 				let id = to.params.id
+				let type = id.split(".")[1];
 				let app = router.app
 				let vals = {
 					apath: 'https://whiterasbk.github.io/wblog/res/article/',
@@ -201,7 +207,12 @@ var public_opts = {
 
 										
 										setTimeout(function(argument) {
-											$(vals.output_view).html(window.w_markdownit.render(article_data))
+											if (type == "md") {
+												$(vals.output_view).html(window.w_markdownit.render(article_data))
+
+											} else {
+												$(vals.output_view).html(article_data);
+											}
 										}, 1 * 1000)
 
 										setTimeout(function() {
