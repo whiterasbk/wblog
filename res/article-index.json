@@ -8,7 +8,17 @@
 			"description":"",
 			"sub-title":"自动变黄",
 			"lables":["article/","article/0.md"]
-		}
+		},
+
+		{
+			"title":"关于boot",
+			"id":"test.html",
+			"date":"2017/1/11",
+			"img":"",
+			"description":"",
+			"sub-title":"自动变蓝",
+			"lables":["article/","article/0.md"]
+		}		
 	],
 
 	"java": [
