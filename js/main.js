@@ -41,27 +41,7 @@ window.w_markdownit = markdownit({
 
 
 
-window.onload = function() {
 
-	
-
-	$.ajax({
-		url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
-		type: 'GET',
-		dataType: 'json',
-	})
-	.done(function(data) {
-		vue_public_app.article_list = data
-	})
-	.fail(function() {
-		console.log("error");
-	})
-	.always(function() {
-		console.log("complete");
-	});
-	
-
-}
 
 
 
@@ -73,6 +53,15 @@ var public_opts = {
 		hidden_block_title: '',
 		hidden_block_msg: '',
 		hidden_block: false,
+
+
+		load_art_info: {
+			title: "",
+			msg: "",
+			is_success: false,
+			is_show_block: false,
+		},
+
 		article_list: {},
 
 		current_article: {
@@ -132,25 +121,132 @@ var public_opts = {
 			path: "/article/:id",
 			component: {
 				template: `
+				
 
-				<div v-if="">
-					<ol class="breadcrumb">
-  						<li><a href="#">{{ toString($router.app.article_list)  }}</a></li>
-  						<li><a href="#">Library</a></li>
-  						<li class="active">Data</li>
-					</ol>
-					<div class="label label-default">sex</div>
+				<div>
+					<div id="article_load_msgbox" v-if="$router.app.load_art_info.is_show_block">
+						<div class="alert alert-warning alert-dismissible" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>{{ $router.app.load_art_info.title }}</strong>
+							{{ $router.app.load_art_info.msg }}
+						</div>				
+					</div>
 
-					<div id="markdownit-view"></div>
+					<div v-if="$router.app.load_art_info.is_success">
+						<ol class="breadcrumb">
+  							<li><a href="#">归档</a></li>
+  							<li><a href="#">{{ $router.app.current_article.classic }}</a></li>
+  							<li class="active">{{ $router.app.current_article.detail.title }}</li>
+						</ol>
+						<div v-for="lable in $router.app.current_article.detail.lables">
+							<div class="label label-default">{{ lable }}</div>
+						</div>
+						
+
+						<div id="markdownit-view"></div>
+					</div>
 				</div>
+							
+
+				
 
 				`,
 			},	
 
 			beforeEnter: (to, from, next) => {
-				
-				new article(to.params.id).render(router.app);
 
+
+				// new article(to.params.id).render(router.app);
+
+				let id = to.params.id
+				let app = router.app
+				let vals = {
+					apath: 'https://whiterasbk.github.io/wblog/res/article/',
+					output_view: "#markdownit-view",
+					msgbox: "#article_load_msgbox",
+				}
+
+
+				$.ajax({
+					url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
+					type: 'GET',
+					dataType: 'json',
+				})
+				.done(function(data) {
+
+
+
+					try {
+
+						
+						for (let i in data) {
+
+							for (let k in data[i]) {
+								if (data[i][k]['id'] == id) {
+									app.current_article.classic = i;
+									app.current_article.detail = data[i][k];
+
+									vals.apath += id
+
+									$.ajax({
+										url: vals.apath,
+										type: 'GET',
+									})
+									.done(function(article_data) {
+
+										app.load_art_info.is_show_block = true;
+										app.load_art_info.is_success = true;
+
+										app.load_art_info.msg = "文章加载中...";
+
+										
+										setTimeout(function(argument) {
+											$(vals.output_view).html(window.w_markdownit.render(article_data))
+										}, 1 * 1000)
+
+										setTimeout(function() {
+
+											$(vals.msgbox).slideUp('slow/400/fast');
+											
+											app.load_art_info.is_show_block = false;
+											app.load_art_info.msg = "";
+
+										}, 2 * 1000);	
+							
+									}).fail(function() {
+										
+										app.load_art_info.msg = "你要找的文章自己插上翅膀飞走了";
+										app.load_art_info.is_show_block = true;
+										app.load_art_info.is_success = false;
+									});
+									
+
+								}
+							}
+					
+
+							window.vue_public_app.article_list = data		
+						}
+
+					} catch (e) {
+						p(e)
+					}		
+
+
+					p(app.current_article)		
+
+
+				})
+				.fail(function() {
+					app.load_art_info.msg = "你要找的文章自己插上翅膀飞走了";
+					app.load_art_info.is_show_block = true;
+					app.load_art_info.is_success = false;
+				});
+
+
+				
+
+				
 
 
 				next();
@@ -208,8 +304,8 @@ var vue_public_app = new Vue(public_opts);
 
 
 router.afterEach((to, from) => {
-	p(vue_public_app)
-  p(to)
+	// p(vue_public_app)
+ //  p(to)
 })
 
 
@@ -245,7 +341,7 @@ function article(articleid){
 	};
 
 
-	let load_list = function (ctx){
+	let load_list = function (context){
 		$.ajax({
 			url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
 			type: 'GET',
@@ -259,17 +355,13 @@ function article(articleid){
 
 					for (let k in data[i]) {
 						if (data[i][k]['id'] == articleid || data[i][k]['title'] == articleid) {
-							ctx.current_article.classic = i;
-							ctx.current_article.detail = data[i];
+							context.current_article.classic = i;
+							context.current_article.detail = data[i][k];
 
-						
-
-							
-						
 						}
 						
-						p(data[i][k])
-						p(data[i][k]['id'] == articleid || data[i][k]['title'] == articleid)
+						// p(data[i][k])
+						// p(data[i][k]['id'] == articleid || data[i][k]['title'] == articleid)
 					}
 					
 
@@ -277,7 +369,7 @@ function article(articleid){
 
 					// p(data[i])
 					
-					p(window.vue_public_app.article_list)			
+								
 				}
 			} catch (e) {
 				p(e)
@@ -292,6 +384,33 @@ function article(articleid){
 		});		
 	}
 
+
+	// let parse_current = function() {
+		
+	// 	let data = ctx.article_list
+
+	// 	try {
+
+
+	// 		for (let i in data) {
+
+	// 				for (let k in data[i]) {
+	// 					if (data[i][k]['id'] == articleid || data[i][k]['title'] == articleid) {
+	// 						ctx.current_article.classic = i;
+	// 						ctx.current_article.detail = data[i][k];
+
+	// 					}
+						
+	// 					// p(data[i][k])
+	// 					// p(data[i][k]['id'] == articleid || data[i][k]['title'] == articleid)
+	// 				}
+								
+	// 			}
+	// 		} catch (e) {
+	// 			p(e)
+	// 		}
+	// }
+ 
 
 
 	// let search_article_by_id = function(key, ctx){ 
@@ -322,15 +441,42 @@ function article(articleid){
 		_outputviewid = $(element);
 	}		
 
-	this.render = function(ctx){
+	this.render = function(vue){
+
+		
 
 		try {
-			ctx.hidden_block_msg = "文章加载中..."
 
-			ctx.hidden_block = true;
+			// let d = {}
+			// for (let i in ctx) {
+			// 	d[i] = ctx[i]
+			// }
+
+			p(vue)
+
+			let h ={
+
+			}
+
+			for (let i in vue) {
+				h[i] = vue[i]
+			}
+
+			p(h)
+
+// load_art_info: {
+// 			title: "",
+// 			msg: "",
+// 			is_success: false,
+// 			is_show_block: false,
+// 		},			
+
+			vue._self.load_art_info.msg = "文章加载中..."
+
+			vue.load_art_info.is_show_block = true;
 
 
-			$(_hidden_block).slideDown();
+			// $(_hidden_block).slideDown();
 		} catch(_) {
 			p(_)
 		}
@@ -357,7 +503,8 @@ function article(articleid){
 		
 
 
-		load_list(ctx)
+		load_list(vue)
+		// parse_current()
 
 
 		$.ajax({
@@ -369,19 +516,17 @@ function article(articleid){
 
 
 						// console.log(window.markdownit().render(data));
+						vue.load_art_info.is_success = true;
 						setTimeout(function() {
 							$(_hidden_block).slideUp('slow/400/fast');
-							ctx.hidden_block = false;
-							ctx.hidden_block_msg = "";
+							vue.load_art_info.is_show_block = false;
+							vue.load_art_info.msg = "";
 
 						}, 2 * 1000);
 
-						
-
-
 					},
 					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						ctx.hidden_block_msg = "你要找的文章自己插上翅膀飞走了";
+						vue.load_art_info.msg = "你要找的文章自己插上翅膀飞走了";
 					},
 
 					complete: function(XMLHttpRequest, textStatus) {
@@ -406,3 +551,27 @@ function p(argument) {
 	console.log(argument);
 }
 
+window.onload = function() {
+
+	$.ajax({
+		url: 'https://whiterasbk.github.io/wblog/res/article-index.json',
+		type: 'GET',
+		dataType: 'json',
+	})
+	.done(function(data) {
+		
+
+		let app = vue_public_app;
+
+		app.article_list = data;
+		
+	})
+	.fail(function() {
+		console.log("error");
+	})
+	.always(function() {
+		console.log("complete");
+	});
+	
+
+}
