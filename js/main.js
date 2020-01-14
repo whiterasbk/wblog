@@ -93,6 +93,10 @@ var public_opts = {
 			}
 
 			$(lis[0]).addClass("active")		
+		},
+
+		remove_collapse: function(id) {
+			$(id).removeClass('collapse')
 		}
 
 	},
@@ -114,6 +118,10 @@ var public_opts = {
 			path: "/about",
 			component: {
 				template: `<div> aa: {{ whiter }} </div>`
+			},
+
+			beforeEnter: function(to, from, next) {
+				p("about")
 			}
 		},
 
@@ -161,6 +169,8 @@ var public_opts = {
 			},	
 
 			beforeEnter: (to, from, next) => {
+
+				p(12)
 
 
 				// new article(to.params.id).render(router.app);

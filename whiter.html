@@ -29,6 +29,15 @@
 		.article-label {
 			margin-right: 5px;
 		}
+
+
+		.collapse {
+			visibility: visible;
+		}
+
+		.navbar-search-box {
+			max-width: 100%;
+		}
 	</style>
 </head>
 <body>
@@ -58,7 +67,7 @@
 
 				</div>
 
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<div class="navbar-collapse" id="bs-example-navbar-collapse-1">
 
 					<div id="top_navbar-links">
 						<ul class="nav navbar-nav">
@@ -110,12 +119,12 @@
 					<div id="nav-font" class="dropdown">
 
 
-						<div class="navbar-form navbar-right">
+						<div class="navbar-form navbar-right navbar-search-box">
 
 							<div class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<form @submit.prevent="on_navbar_search_submit">
 									<div class="form-group">
-										zx<input type="text" class="form-control" placeholder="Search">
+										<input type="text" class="form-control" placeholder="Search">
 									</div>
 
 									<button type="submit" class="btn btn-default">搜索</button>
