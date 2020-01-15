@@ -84,6 +84,7 @@ var public_opts = {
 		},
 
 		on_navbar_search_submit: function(e) {
+
 			router.push({ path: 'search', query: { keywords: $('#navbar-search-input')[0].value }})
 
 		},
@@ -140,13 +141,31 @@ var public_opts = {
 
 		{
 			path: "/search",
+			props: {
+				a:'jquery.js'
+			},
 			component: {
-				template: `<div> aa: {{ $router.app.whiter }} {{ $route.query.keywords }} </div>`,
-
+				template: `
+					<div> 
+						aa: {{ $router.app.whiter }} s.js {{ $route.query.keywords }} 
+						$attrs.a: {{ $attrs.a }}
+					</div>
+				`,
+				beforeRouteUpdate (to, from, next) {
+					let keywords = to.query.keywords
+					p(keywords+"update")
+					// this.props.a = 'bootstrap.js'
+					this.$attrs.a = 'bootstrap.js'
+					p(this.$attrs.a )
+					next()
+				}
 			},
 
 			beforeEnter: function(to, from, next) {
-				p(to)
+
+				let keywords = to.query.keywords
+
+				p(keywords+"enter")
 				next()
 			}
 		},		
@@ -737,4 +756,11 @@ function isEmpty(object) {
 	}
 
 	return true;
+}
+
+
+// 谷歌浏览器
+const originalPush = router.__proto__.push;
+router.__proto__.push = function push(location) {
+  	return originalPush.call(this, location).catch(err => err)
 }
