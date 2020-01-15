@@ -65,6 +65,7 @@ var public_opts = {
 		article_list: {},
 
 		current_article: {
+			content: "",
 			classic: "",
 			detail: {}, 
 		}
@@ -83,6 +84,7 @@ var public_opts = {
 		},
 
 		on_navbar_search_submit: function(e) {
+			router.push({ path: 'search', query: { keywords: $('#navbar-search-input')[0].value }})
 
 		},
 
@@ -105,7 +107,17 @@ var public_opts = {
 		{
 			path: "/",
 			component: {
-				template: '<div class=""> as {{ $router.app.whiter  }} </div>',
+				template: `
+					<div  class="">
+						as {{ $router.app.whiter  }} 
+						<div v-if="!$router.app.load_art_info.is_success" class="align-to-center-p404"> 
+							<img src="./img/article-writedown-self.png" alt="" />
+						</div>		 
+
+
+					</div>
+									
+				`,
 			},
 
 			beforeEnter: (to, from, next) => {
@@ -117,13 +129,27 @@ var public_opts = {
 		{
 			path: "/about",
 			component: {
-				template: `<div> aa: {{ whiter }} </div>`
+				template: `<div> aa: {{ $router.app.whiter }} </div>`
 			},
 
 			beforeEnter: function(to, from, next) {
-				p("about")
+				p("aaaaaaaaaabout")
+				next()
 			}
 		},
+
+		{
+			path: "/search",
+			component: {
+				template: `<div> aa: {{ $router.app.whiter }} {{ $route.query.keywords }} </div>`,
+
+			},
+
+			beforeEnter: function(to, from, next) {
+				p(to)
+				next()
+			}
+		},		
 
 		{
 			path: "/article/:id",
@@ -139,6 +165,12 @@ var public_opts = {
 							{{ $router.app.load_art_info.msg }}
 						</div>				
 					</div>
+
+
+					<div v-if="!$router.app.load_art_info.is_success" class="align-to-center-p404"> 
+						<img src="./img/article-writedown-self.png" alt="" />
+					</div>
+
 
 					<div v-if="$router.app.load_art_info.is_success">
 						<ol class="breadcrumb">
@@ -157,8 +189,12 @@ var public_opts = {
 							<span class="label label-success article-label"> {{ $router.app.current_article.detail.date }} </span>
 						</div>
 						
+						
 
 						<div id="article-display-view"></div>
+
+
+						
 					</div>
 				</div>
 						
@@ -166,11 +202,102 @@ var public_opts = {
 				
 
 				`,
+			
+
+				beforeRouteEnter (to, from, next) {
+    				// 在渲染该组件的对应路由被 confirm 前调用
+    				// 不！能！获取组件实例 `this`
+    				// 因为当守卫执行前，组件实例还没被创建
+    				p("enter")
+    				next();
+				},
+				beforeRouteUpdate (to, from, next) {
+    				// 在当前路由改变，但是该组件被复用时调用
+    				// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
+    				// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
+    				// 可以访问组件实例 `this`
+    				// article 与article 之间的跳转
+    				
+					p("update")
+
+					let id = to.params.id
+					let type = id.split(".")[1];
+					let app = router.app
+					let vals = {
+						apath: 'https://whiterasbk.github.io/wblog/res/article/',
+						output_view: "#article-display-view",
+						msgbox: "#article_load_msgbox",
+					}					
+
+					if (hasArticle(id))	{
+
+						$.ajax({
+							url: vals.apath + id
+						}).done(function(article_data) {
+
+							// app.current_article.content = article_data
+
+							app.load_art_info.is_show_block = true;
+							app.load_art_info.is_success = true;
+							app.load_art_info.msg = "文章加载中...";	
+
+							if (type == "md") {
+								$(vals.output_view).html(window.w_markdownit.render(article_data))
+
+							} else {
+								$(vals.output_view).html(article_data);
+							}	
+
+							setTimeout(function() {
+
+								$(vals.msgbox).slideUp('slow/400/fast');
+											
+								app.load_art_info.is_show_block = false;
+								app.load_art_info.msg = "";
+
+							}, 2 * 1000);														
+						})
+						.fail(function() {
+							app.load_art_info.is_show_block = true;
+							app.load_art_info.is_success = false;
+							app.load_art_info.msg = "你的网络皮了一下，并朝你抛了一条狗";	
+
+
+
+						});
+						next();
+						
+					} else {
+						if (isEmpty(app.article_list)) {
+							// 列表为空
+							app.load_art_info.is_show_block = true;
+							app.load_art_info.is_success = false;
+							app.load_art_info.msg = "你的网络不在状态，并向你抛了一条狗";							
+						} else {
+							app.load_art_info.is_show_block = true;
+							app.load_art_info.is_success = false;
+							app.load_art_info.msg = "文章 <" + id + "> 竟不在数据库中，究竟是人性的扭曲还是道德的沦丧";
+
+
+						}
+
+					
+					}			
+					
+					// next();
+					
+				},
+				beforeRouteLeave (to, from, next) {
+    				// 导航离开该组件的对应路由时调用
+    				// 可以访问组件实例 `this`
+					p("leave")
+					next();
+				}
 			},	
 
-			beforeEnter: (to, from, next) => {
+			beforeEnter: function(to, from, next) {
 
-				p(12)
+				p("article")
 
 
 				// new article(to.params.id).render(router.app);
@@ -212,6 +339,8 @@ var public_opts = {
 									})
 									.done(function(article_data) {
 
+										// app.current_article.content = article_data
+
 										app.load_art_info.is_show_block = true;
 										app.load_art_info.is_success = true;
 
@@ -225,20 +354,22 @@ var public_opts = {
 											} else {
 												$(vals.output_view).html(article_data);
 											}
+
+											setTimeout(function() {
+
+												$(vals.msgbox).slideUp('slow/400/fast');
+											
+												app.load_art_info.is_show_block = false;
+												app.load_art_info.msg = "";
+
+											}, 2 * 1000);
 										}, 1 * 1000)
 
-										setTimeout(function() {
-
-											$(vals.msgbox).slideUp('slow/400/fast');
 											
-											app.load_art_info.is_show_block = false;
-											app.load_art_info.msg = "";
-
-										}, 2 * 1000);	
 							
-									}).fail(function() {
+									}).fail(function(e) {
 										
-										app.load_art_info.msg = "你要找的文章自己插上翅膀飞走了";
+										app.load_art_info.msg = "你要找的文章 <" + id + "> 自己插上翅膀飞走了";
 										app.load_art_info.is_show_block = true;
 										app.load_art_info.is_success = false;
 									});
@@ -260,10 +391,10 @@ var public_opts = {
 
 
 				})
-				.fail(function() {
-					app.load_art_info.msg = "你要找的文章自己插上翅膀飞走了";
+				.fail(function(e) {
 					app.load_art_info.is_show_block = true;
 					app.load_art_info.is_success = false;
+					app.load_art_info.msg = "你的网络皮了几下，并朝你抛了一条狗";
 				});
 
 
@@ -275,27 +406,6 @@ var public_opts = {
 				next();
 			},
 
-			beforeRouteEnter (to, from, next) {
-    		// 在渲染该组件的对应路由被 confirm 前调用
-    		// 不！能！获取组件实例 `this`
-    		// 因为当守卫执行前，组件实例还没被创建
-    			p(1)
-    			next();
-			},
-			beforeRouteUpdate (to, from, next) {
-    		// 在当前路由改变，但是该组件被复用时调用
-    		// 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，
-    		// 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。
-    		// 可以访问组件实例 `this`
-				p(2)
-				next();
-			},
-			beforeRouteLeave (to, from, next) {
-    		// 导航离开该组件的对应路由时调用
-    		// 可以访问组件实例 `this`
-				p(3)
-				next();
-			}
 
 		},
 
@@ -597,4 +707,34 @@ window.onload = function() {
 	});
 	
 
+}
+
+
+
+
+function hasArticle(id) {
+
+	let app = window.vue_public_app
+	let data = app.article_list	
+
+	for (let i in data) {
+
+		for (let k in data[i]) {
+			if (data[i][k]['id'] == id) {
+				return true;
+			}
+		}
+		
+	}
+
+	return false;	
+}
+
+
+function isEmpty(object) {
+	for (var i in object) {
+		return false;
+	}
+
+	return true;
 }
