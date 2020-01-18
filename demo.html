@@ -5,6 +5,9 @@
 	<title>DEMO</title>
 
 	<link rel="stylesheet" href="css/bootstrap3.css">
+	<link rel="stylesheet" href="css/highlight.js/default.css">
+	<link rel="stylesheet" href="css/bootstrap-docs.css">
+
 	<style>
 		.all-item-img {
 			height: 100px;
@@ -122,16 +125,15 @@
 
 									
 										<div v-if='qlist.length > 0 && qlist[0].title != null'> 
-											<div v-for='item in qlist' class="list-group">
-												<router-link :to="item.path" class="list-group-item">
-													<div class="list-group-item-heading">
-														<h3 v-html='item.title'></h3>
-														<small v-html='item["sub-title"]'></small>
-													</div>
+											<div v-for='item in qlist'  class='bs-callout bs-callout-info'>
+													<router-link class="anchorjs-link " :to="item.path">
+														<div>
+															<h3 v-html='item.title'></h3>
+														</div>
+													</router-link>
 													
+													<p v-html='item.description' ></p>
 													
-													<p v-html='item.description' class="list-group-item-text"></p>
-												</router-link>
 												</div>
 										</div>
 										<div v-if='qlist.length > 0 && qlist[0].title == null' class="list-group">
@@ -540,7 +542,39 @@
 						path: "/all",
 						component: {
 							template: `
-								<div>{{ alist }}</div>
+								<div>
+									
+									<div v-for='classic in alist'>
+										
+										<div v-for='each in classic'>
+
+											<div class='bs-callout bs-callout-info'>
+
+												<div class="media">
+  												
+  													<div class="media-left">
+   														
+    													<img :src="each['img']" alt="媒体图片" class="media-object img-rounded all-item-img" >
+    												
+ 													</div>
+
+ 													<div class="media-body">
+  									 					<router-link :to="'/article/' + each['id']" class="anchorjs-link">
+  									 					<h2 class='media-heading'>{{ each['title'] }}
+  									 					<small> {{each['sub-title']}} </small> </h2>
+  									 					</router-link>
+  									 					<p >  <code>描述</code>  {{ each['description'] }} </p>
+  														<p> <code>时间</code>  {{ each['date'] }}</p>
+ 													</div>
+											</div>
+												
+										</div>
+										</div>
+									</div>
+
+									<div v-if='error' class="alert alert-danger" role="alert">{{ error }}
+									</div>									
+								</div>
 							`,
 							created () {
 								this.init();
@@ -581,12 +615,12 @@
 
 									<div v-for='pro in alist[name]'>
 										
-										<div>
+										<div class='bs-callout bs-callout-info'>
 
 											<div class="media">
-												<router-link :to="'/article/' + pro['id']">
-													<h2> {{ pro['title'] }} </h2>
-												</router-link>
+												
+													
+												
   												
   												<div class="media-left">
    														
@@ -594,16 +628,19 @@
     												
  													</div>
  														<div class="media-body">
-  									 						<h3 class="media-heading">{{ pro['sub-title'] }}</h3>
-  									 						<h4> 描述： {{ pro['description'] }} </h4>
-  															<h4> 时间： {{ pro['date'] }}</h4>
+  									 						<router-link :to="'/article/' + pro['id']" class="anchorjs-link">
+  									 						<h2 class='media-heading'>{{ pro['title'] }} <small> {{pro['sub-title']}} </small> </h2>
+  									 						</router-link>
+  									 						<p >  <code>描述</code>  {{ pro['description'] }} </p>
+  															<p> <code>时间</code>  {{ pro['date'] }}</p>
  														</div>
 												</div>
 												
 										</div>
 									</div>
 
-									<div v-if='error' class="alert alert-danger" role="alert">{{ error }}</div>
+									<div v-if='error' class="alert alert-danger" role="alert">{{ error }}
+									</div>
 									
 								</div>
 							`,
