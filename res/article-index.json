@@ -4,7 +4,7 @@
 			"title":"关于markdown",
 			"id":"test.md",
 			"date":"2017/1/11",
-			"img":"",
+			"img":"https://whiterasbk.github.io/wblog/img/whiter.jpg",
 			"description":"　Markdown 是一种轻量级的标记语言，由John Gruber和Aaron Swartz创建，使其成为可读性最大并可再发行的可输入输出的格式。这种语言创建灵感来自于已经存在的带标记的电子邮件文本。Markdown 允许 HTML 语法, 所以使用者如果需要可以直接用 HTML来表示是可以的。Markdown最初由Gruber应用在Perl语言中，但现在已经有多种编程语言应用了。它是开源项目，并以BSD-style许可证的许可方式以插件形式或内容管理系统形式发布。",
 			"sub-title":"自动变黄",
 			"lables":["article/","article/0.md"]
@@ -14,7 +14,7 @@
 			"title":"关于boot",
 			"id":"test.html",
 			"date":"2017/1/11",
-			"img":"",
+			"img":"https://whiterasbk.github.io/wblog/img/whiter.jpg",
 			"description":"Bootstrap是Twitter推出的一个开源的用于前端开发的工具包，是一个CSS/HTML框架。它由Twitter的设计师Mark Otto和Jacob Thornton合作开发。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。Bootstrap一经推出后颇受欢迎，一直是GitHub上的热门开源项目，包括NASA的MSNBC（微软全国广播公司）的Breaking News都使用了该项目。",
 			"sub-title":"自动变蓝",
 			"lables":["article/","article/0.md"]
