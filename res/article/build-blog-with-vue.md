@@ -1,4 +1,3 @@
-## 使用vue和vue-router构建单应用博客
 
 第一次知道vue是看[表严肃](https://github.com/biaoyansu)的[vuejs](https://www.bilibili.com/video/av13450835)教程了解的，也是在那时候第一次打开了新世界的大门：原来前端还可以像后端这样写。和以前的网页加载模式大相径庭，而且更节省服务器资源。感觉用vue写网页会变成一种很舒服的事情。正如表哥说的：
 
