@@ -2,770 +2,241 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>DEMO</title>
-
-	<link rel="stylesheet" href="css/bootstrap3.css">
+	<title>白客瞎写东西的地方</title>
+	<!-- <link rel="stylesheet" href="css/normalize.css"> -->
+	<link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/highlight.js/default.css">
 	<link rel="stylesheet" href="css/bootstrap-docs.css">
 
+	
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script src="js/jquery.js"></script>
+	<!-- <link rel="stylesheet" href="css/bootsrtap.css"> -->
 	<style>
-		.all-item-img {
-			height: 100px;
-			width: 100px;
+		.logo-img {
+			max-width: 30px;
+			margin-top: -5px
+		}
+
+		.footer {
+			margin-top: 50%;
+		}
+		.hidden-block {
+			display: none;
+		}
+
+		.article-label {
+			margin-right: 5px;
+		}
+
+
+		.collapse {
+			visibility: visible;
+		}
+
+		.navbar-search-box {
+			max-width: 100%;
+		}
+
+		.align-to-center-p404 {
+			width: 500px;
+            height: 500px;
+            padding-top: 5%;
+            margin: 0 auto; /*水平居中*/
+           /* position: relative;
+            top: 50%; 
+            transform: translateY(-50%);*/
 		}
 
 	</style>
 </head>
-<body> 
+<body>
 
-	
-	<div id="app">
-		<a href="#">to#</a>
-		<a href="#/about">#/about</a>
-		<a href="#/search">#/search</a>
-		<a href="#/search?query=whiter">#/search?query=whiter</a>
-		<a href="#/search?query=about">#/search?query=about</a>
-		<a href="#/article">#/article</a>
-		<a href="#/article/whiter">#/article/whiter</a>
-		<a href="#/article/about">#/article/about</a>	
+	<div id="vue_public_scop">
 
-		<form @submit.prevent="onsubmit" >
-			<div class="form-group">
-				enter: <input class="form-control" id="input" type="text">
-				<button class="btn btn-info btn-block" type="submit">submit</button>
+
+		<div class="navbar navbar-inverse" role="navigation">
+			<div class="container">
+				<div @click="on_logo_button_click" class="navbar-header">
+
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+
+
+					<router-link class="navbar-brand" to="/index">
+						<img class="logo-img img-circle" alt="Logo" src="img/whiter.jpg">
+					</router-link>
+					<router-link class="navbar-brand" to="/index">
+						<span>whiter</span>		
+					</router-link>	
+
+				</div>
+
+				<div class="navbar-collapse" id="bs-example-navbar-collapse-1">
+
+					<div id="top_navbar-links">
+						<ul class="nav navbar-nav">
+							<li @click="navbar_nav_li_click" class="active">
+								<router-link to="/index">
+									<span>首页</span>
+								</router-link>
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/all">
+									<span>归档</span>
+								</router-link>
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/classify">
+									<span>分类</span>
+								</router-link>
+							</li>
+							<li @click="navbar_nav_li_click">
+								<router-link to="/">
+									<span>**</span>
+								</router-link>
+							</li>						
+							<li @click="navbar_nav_li_click">
+								<router-link to="/studio">
+									<span>末影工作室</span>
+								</router-link>
+							</li>										
+						</ul>
+
+
+						<div>
+							<ul class="nav navbar-nav navbar-right">
+								<li @click="navbar_nav_li_click">
+									<router-link to="/about">
+										<span>关于</span>
+									</router-link>
+								</li>
+								<li @click="navbar_nav_li_click">
+									<router-link to="/contact">
+										<span>联系</span>
+									</router-link>
+								</li>							
+							</ul>
+						</div>
+
+					</div>
+
+					<div id="nav-font" class="dropdown">
+
+
+						<div class="navbar-form navbar-right navbar-search-box">
+
+							<div class="dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<form @submit.prevent="on_navbar_search_submit">
+									<div class="form-group">
+										<input id="navbar-search-input" type="text" class="form-control" placeholder="输入关键词或文章id">
+									</div>
+
+									<button type="submit" class="btn btn-default">搜索</button>
+								</form>
+							</div>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+							</ul>	
+						</div>
+
+					</div>
+				</div>
+				
 			</div>
-			
-		</form>	
+		</div>
 
+		<div class="container">
+
+			<router-link class="btn btn-danger" to="/article/test.md">
+				<span>关于1</span>
+			</router-link>
+			<router-link class="btn btn-danger" to="/article/test.mdh">
+				<span>关于2</span>
+			</router-link>
+			<router-link class="btn btn-danger" to="/article/test.html">
+				<span>关于3</span>
+			</router-link>
+
+
+
+			<!-- <div id="hidden-block" v-if="hidden_block">
+				<div class="alert alert-warning alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<strong>{{ hidden_block_title }}</strong>
+					{{ hidden_block_msg }}
+				</div>				
+			</div> -->
+
+
+
+			<router-view></router-view>
+			<!-- <div id="markdownit-view"></div> -->
+
+
+
+
+			
+
+
+
+
+
+
+
+		</div>
 		
-
-		<router-view></router-view>
-		<!-- <div v-html='a' v-for='a in article'>
+	
 			
-		</div> -->
+
+
+
+		<template>
+			
+
+		</template>
+
+
+
+
+
+		<footer class="bs-docs-footer footer" >
+			<div class="container">
+				<ul class="bs-docs-footer-links">
+					<li><a href="https://github.com/twbs/bootstrap"> 本项目的 GitHub 仓库</a></li>
+					<li><a href="../getting-started/#examples">联系我</a></li>
+					<li><a href="http://www.youzhan.org"></a></li>
+					<li><a href="../about/">关于</a></li>
+				</ul>
+
+				<p>Designed and built with all the love in the world by <a href="https://twitter.com/mdo" target="_blank">@mdo</a> and <a href="https://twitter.com/fat" target="_blank">@fat</a>. Maintained by the <a href="https://github.com/orgs/twbs/people">core team</a> with the help of <a href="https://github.com/twbs/bootstrap/graphs/contributors">our contributors</a>.</p>
+
+				<p>本项目源码受 <a rel="license" href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a>开源协议保护，文档受 <a rel="license" href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a> 开源协议保护。</p>
+
+			</div>
+		</footer>
 
 	</div>
 
-
-	<script src="js/jquery.js"></script>
-	<script src="js/vue.js"></script>
-	<script src="js/vue-router.js"></script>
-	<script src="js/markdown-it.js"></script>
+	
+	<script src="js/bootstrap.js"></script>
 	<script src="js/highlight.pack.js"></script>
-	<script>
-		let p = console.log;
-
-
-
-		window.hljs.initHighlightingOnLoad();
-
-
-		window.w_markdownit = markdownit({
-			highlight: function (str, lang) {
-				if (lang && hljs.getLanguage(lang)) {
-					try {
-						return '<pre class="hljs"><code>' +
-						hljs.highlight(lang, str, true).value +
-						'</code></pre>';
-					} catch (__) {}
-				}
-
-				return '<pre class="hljs"><code>' + w_markdownit.utils.escapeHtml(str) + '</code></pre>';
-			}
-		});		
-
-
-
-
-
-		$("a").addClass('btn btn-success')
-
-		let app = new Vue({
-			el: "#app",
-			data: {
-				data: '<code>yes</code>',
-				article: {
-					list_path: 'https://whiterasbk.github.io/wblog/res/article-index.json',
-					res_path: 'https://whiterasbk.github.io/wblog/res/article/',
-				}
-			},
-			methods: {
-				onsubmit () {
-					router.push({path: "/search", query:{key: $("#input")[0].value}}) 
-				},
-				isMatchedArticleId(list, id) {
-					
-					for (let i in list) {
-
-						for (let k in list[i]) {
-							if (list[i][k]['id'] == id) {
-								return true;
-							}
-						}
-
-					}
-
-					return false;					
-				}
-			},
-			router: new VueRouter({
-				routes: [
-					{
-						path: "/search",
-						component: {
-							template: `
-								<div class="panel panel-default">
-
-
-								
-
-
-									<div class="panel-heading">搜索结果</div>
-									<div class="panel-body">
-
-									
-										<div v-if='qlist.length > 0 && qlist[0].title != null'> 
-											<div v-for='item in qlist'  class='bs-callout bs-callout-info'>
-													<router-link class="anchorjs-link " :to="item.path">
-														<div>
-															<h3 v-html='item.title'></h3>
-														</div>
-													</router-link>
-													
-													<p v-html='item.description' ></p>
-													
-												</div>
-										</div>
-										<div v-if='qlist.length > 0 && qlist[0].title == null' class="list-group">
-											<li class="list-group-item list-group-item-info">
-												正在为您跳转至<{{ key }}>
-											</li>
-										</div>										
-										<div v-if='qlist.length == 0 && error == null' class="list-group">
-											<li class="list-group-item list-group-item-danger">
-												你要找的文章<{{ key }}>自己插上翅膀飞走了
-											</li>
-
-										</div>
-
-										<div v-if='loading && error == null' class="list-group-item list-group-item-warning">
-											加载中...
-										</div>
-
-										<div v-if='error' class="list-group-item list-group-item-danger">
-											{{ error }}
-										</div>	
-
-
-									</div>
-
-									
-
-
-									
-									<div class="panel-body hidden">
-										result: {{ alist }} <br>
-										search: {{ qlist }} <br>
-										error : {{ error }} <br>
-									</div>
-
-									<div v-for='e in qlist' v-html='e' class='hidden' >
-										
-									</div>
-									
-								</div>
-							`,
-							beforeRouteEnter (to, from, next) {
-								p("/search beforeRouteEnter", this)	
-    							next()						
-  							},
-  							beforeRouteLeave (to, from, next) {
-  								p("/search beforeRouteLeave")
-  								next()
-  							},
-  							beforeRouteUpdate (to, from, next) {
-    							p("/search beforeRouteUpdate", this)
-    							
-    							if (this.app.isMatchedArticleId(this.alist, to.query.key)) {
-    								next('article/' + to.query.key)
-    							} else {
-    								next()
-    							}
-    							
-  							},
-  							created () {
-  								p("/search created", this)
-  								this.init()
-  								this.refresh()
-
-  							},
-  							data() {
-  								p("/search data")
-  								return {
-  									app: this.$router.app,
-  									key: this.$route.query.key,
-  									article: null,
-  									alist: [],
-  									qlist: [],
-  									loading: false,
-  									error: null,
-
-  									value: {
-  										article_list_path: this.$router.app.article.list_path,
-  										highlight: {left: "<code><strong>", right: "</strong></code>"},
-  										error_msg_network: "",
-  										error_msg_whitespace: '请勿输入空格来查询',
-  										error_msg_null: '查询参数设置错误',
-  										loading_msg: ""
-  									}
-  								};
-  							},
-  							watch: {
-  								'$route': 'refresh'
-  							},
-  							methods: {
-  								init () {
-  									// fetch data
-  									let r = this
-  									this.error = null;
-  									this.loading = true;
-  									try {
-  										this.alist = $.ajax({url: this.value.article_list_path, async: false}).responseJSON;
-  										
-  									} catch(_) {
-  										p(_)
-  										this.error == this.value.error_msg_network;
-  									} finally {
-  										this.loading = false;
-  									}
-  									
-  									
-  									setTimeout(function(){
-  										if (this.alist == [] || this.alist == null) {
-  											r.error == r.value.error_msg_network;
-  										}
-  									}, 10 * 1000);
-  									 
-  								},
-  								refresh() {
-  									// this.error = this.article = null;
-  									this.error = null;
-  									this.key = this.$route.query.key;
-  									if (this.key == "") {
-  										p(2333)
-  										this.qlist = []
-  										this.error = this.value.error_msg_whitespace;
-  										return;
-  									} else if (this.key == null) {
-										this.qlist = []
-  										this.error = this.value.error_msg_null;
-  										return;  										
-  									}
-  									
-  									p('refresh', this.key)
-  									this.qlist = [];
-
-  									this.qlist = (this.get_matched())
-
-  									if (!isEmpty(this.qlist) && this.qlist[0].title == null) {
-  										// p(this.app.$router)
-  										// this.app.$router.push(this.qlist.id)
-  										
-  									}
-
-
-  									
-  								},
-  								highlight_keyword (content) {
-  									let key = this.key
-  									let parts = content.split(RegExp(key, 'i'))
-  									let result = "";
-  									for (let i = 0; i < parts.length; i++) {
-  										if (i == parts.length - 1) {
-  											result += parts[i]
-  										} else {
-  											result += parts[i] + this.value.highlight.left + key + this.value.highlight.right 
-  										}
-  									}
-
-  									return result;
-  								},
-  								get_matched () {
-  									let key = this.key
-  									let result = [
-  										// {
-  										// 	id: ,
-  										// 	title: ,
-  										// 	'sub-title': ,
-  										// 	description: ,
-  										// }
-  									]
-
-  									
-
-  									for (let classic in this.alist) {
-  										for (let index in this.alist[classic]) {
-  											let c = this.alist[classic][index]
-  											if (c['id'].toLowerCase() == key) {
-  												return [{path: 'article/' + c['id']}]
-  											} else {
-  												let pre = {}
-
-  												if (c['title'].toLowerCase().match(key) != null || c['sub-title'].toLowerCase().match(key) != null || c['description'].toLowerCase().match(key) != null) {
-  													pre['title'] = this.highlight_keyword(c['title']);
-  													pre['sub-title'] = this.highlight_keyword(c['sub-title']);
-  													pre['description'] = this.highlight_keyword(c['description']);
-  												}
-												
-  												if (!isEmpty(pre)) {
-  													pre['path'] = 'article/' + c['id']
-  													result.push(pre)
-  												} 
-
-
-  											} 
-  										}
-  									}
-
-  									return result;
-
-  									
-  								}
-  							}
-						},
-
-						beforeEnter(to, from, next) {
-							// 路由第一次创建时
-							p("/search beforeEnter", this)
-							
-							next()
-						}
-					},					
-
-					{
-						path: "/article/:id",
-						component: {
-							template: `
-							<div>
-								
-								<div v-if="loading">
-									<div class="alert alert-warning alert-dismissible" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<strong>{{ loading }}</strong>
-											
-									</div>				
-								</div>
-
-								<div v-if="error"> 
-									<div class="alert alert-danger alert-dismissible" role="alert">
-										<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-										<strong>{{ error }}</strong>	
-									</div>										
-								</div>
-
-
-								<div v-if="error" class="center-block"> 
-									<img src="./img/article-writedown-self.png" alt="" />
-								</div>
-
-
-								<div v-if="article">
-									<ol class="breadcrumb">
-										<li><router-link to="/all">归档</router-link></li>
-										<li><router-link :to="classic_link">{{ classic }}</router-link></li>
-										<li class="active">{{ title }}</li>
-									</ol>
-
-									<div v-if="title != ''" class="page-header">
-											<h1> {{ title }} <small> {{ sub_title }}</small></h1>
-									</div>
-							
-									<span v-for="lable in lables" class="label label-info article-label">{{ lable }}</span>
-
-									<span class="label label-success article-label"> {{ date }} </span>
-									
-								</div>
-
-								<div v-html='article'></div>
-							</div>
-							`,
-							beforeRouteEnter (to, from, next) {
-								p("/article beforeRouteEnter", this)
-								
-								
-    							next()						
-  							},
-  							beforeRouteLeave (to, from, next) {
-  								p("/article beforeRouteLeave")
-  								next()
-  							},
-  							beforeRouteUpdate (to, from, next) {
-    							p("/article beforeRouteUpdate", this)
-    							
-    							next()
-    							
-  							},
-  							created () {
-  								p("/article created", this)
-  								this.init()
-  								this.refresh()
-
-  							},
-  							data() {
-  								p("/article data")
-  								return {
-  									app: this.$router.app,
-  									id: this.$route.params.id,
-  									article: null,
-  									alist: [],
-  									loading: true,
-  									error: null,
-  									classic: null,
-  									classic_link: null,
-  									title: null,
-  									sub_title: null,
-  									description: null,
-  									date: null,
-  									lables: [],
-  									value: {
-  										article_list_path: this.$router.app.article.list_path,
-  										article_path: this.$router.app.article.res_path, 
-  										error_msg_network: "你的网络皮了几下，并朝你抛了一条狗",
-  										error_msg_whitespace: '空格无法作为文章id',
-  										error_msg_null: '你要找的文章自己插上翅膀飞走了',
-  										loading_msg: "文章加载中..."
-  									}
-  								};
-  							},
-  							watch: {
-  								'$route': 'refresh'
-  							},
-  							methods: {
-  								init () {
-  									// fetch data
-  									let r = this
-  									this.error = null;
-  									this.loading = true;
-  									try {
-  										this.alist = $.ajax({url: this.value.article_list_path, async: false}).responseJSON;
-  										
-  									} catch(_) {
-  										p(_)
-  										this.error == this.value.error_msg_network;
-  									} finally {
-  										this.loading = false;
-  									}
-  									
-  									
-  									setTimeout(function(){
-  										if (this.alist == [] || this.alist == null) {
-  											r.error == r.value.error_msg_network;
-  										}
-  									}, 10 * 1000);
-  									 
-  								},
-  								refresh() {
-  									// this.error = this.article = null;
-  									this.error = null;
-  									this.id = this.$route.params.id;
-
-  									if (this.id == "") {
-  										
-  										
-  										this.error = this.value.error_msg_whitespace;
-  										return;
-  									} else if (this.id == null) {
-										
-  										this.error = this.value.error_msg_whitespace;
-  										return;  										
-  									}
-  									
-  									p('refresh', this.id)
-  									
-  									this.article = this.render(this.get_article())
-
-  								
-  									if (this.article == null) {
-  										this.error = this.value.error_msg_null;
-  									}
-
-
-  									
-  								},
-  								render(data) {
-  									p("render")
-  									let id = this.id
-  									if (id.split('.').length == 2 && id.split('.')[1].toLowerCase() == "md") {
-  										return window.w_markdownit.render(data);
-  									} else {
-  										return data
-  									}
-  									 
-  								},
-  								get_article () {
-  									let id = this.id
-  									let result = null;
-
-  									
-
-  									for (let classic in this.alist) {
-  										for (let index in this.alist[classic]) {
-  											let c = this.alist[classic][index]
-  											if (c['id'].toLowerCase() == id) {
-  												result = c['id']
-  												this.classic = classic
-  												this.classic_link = '/classify/' + classic
-  												this.title = c['title']
-  												this.sub_title = c['sub-title']
-  												this.description = c['description']
-  												this.lables = c['lables']
-  												this.date = c['date']
-  											}
-  										}
-  									}
-
-  									if (result != null) {
-  										return $.ajax({url: this.value.article_path + result, async: false}).responseText;
-  									} else {
-  										return null;
-  									}
-
-
-  									
-  								}
-  							}							
-
-						}
-					},					
-
-					{
-						path: "/all",
-						component: {
-							template: `
-								<div>
-									
-									<div v-for='classic in alist'>
-										
-										<div v-for='each in classic'>
-
-											<div class='bs-callout bs-callout-info'>
-
-												<div class="media">
-  												
-  													<div class="media-left">
-   														
-    													<img :src="each['img']" alt="媒体图片" class="media-object img-rounded all-item-img" >
-    												
- 													</div>
-
- 													<div class="media-body">
-  									 					<router-link :to="'/article/' + each['id']" class="anchorjs-link">
-  									 					<h2 class='media-heading'>{{ each['title'] }}
-  									 					<small> {{each['sub-title']}} </small> </h2>
-  									 					</router-link>
-  									 					<p >  <code>描述</code>  {{ each['description'] }} </p>
-  														<p> <code>时间</code>  {{ each['date'] }}</p>
- 													</div>
-											</div>
-												
-										</div>
-										</div>
-									</div>
-
-									<div v-if='error' class="alert alert-danger" role="alert">{{ error }}
-									</div>									
-								</div>
-							`,
-							created () {
-								this.init();
-								
-							},
-							data() {
-								return {
-									app: this.$router.app,
-									error: null,
-									alist: null,
-									value: {
-  										article_list_path: this.$router.app.article.list_path,
-  										article_path: this.$router.app.article.res_path, 
-  										error_msg_network: "你的网络皮了几下，并朝你抛了一条狗",
-  									}									
-								}
-							},						
-  							methods: {
-  								init() {
-  															
-  									this.alist = $.ajax({url: this.value.article_list_path, async: false}).responseJSON;
-  			
-  									if (this.alist) {
-  										this.error == this.value.error_msg_network
-  									}
-  									  									
-  								}
-  							}							
-						}
-					},					
-
-					{
-						path: "/classify/:name",
-						component: {
-							template: `
-								<div>
-
-
-									<div v-for='pro in alist[name]'>
-										
-										<div class='bs-callout bs-callout-info'>
-
-											<div class="media">
-												
-													
-												
-  												
-  												<div class="media-left">
-   														
-    												<img :src="pro['img']" alt="媒体图片" class="media-object img-rounded all-item-img" >
-    												
- 													</div>
- 														<div class="media-body">
-  									 						<router-link :to="'/article/' + pro['id']" class="anchorjs-link">
-  									 						<h2 class='media-heading'>{{ pro['title'] }} <small> {{pro['sub-title']}} </small> </h2>
-  									 						</router-link>
-  									 						<p >  <code>描述</code>  {{ pro['description'] }} </p>
-  															<p> <code>时间</code>  {{ pro['date'] }}</p>
- 														</div>
-												</div>
-												
-										</div>
-									</div>
-
-									<div v-if='error' class="alert alert-danger" role="alert">{{ error }}
-									</div>
-									
-								</div>
-							`,
-							created () {
-								this.init();
-								this.refresh();
-							},
-							data() {
-								return {
-									app: this.$router.app,
-  									name: this.$route.params.name, 
-									error: null,
-									alist: null,
-									value: {
-  										article_list_path: this.$router.app.article.list_path,
-  										article_path: this.$router.app.article.res_path, 
-  										error_msg_network: "你的网络皮了几下，并朝你抛了一条狗",
-  										error_msg_null: '分类不存在'
-  									}									
-								}
-							},
-							watch: {
-  								'$route': 'refresh'
-  							},							
-  							methods: {
-  								init() {
-  									
-  									
-  									this.alist = $.ajax({url: this.value.article_list_path, async: false}).responseJSON;
-  			
-
-  									if (!this.alist) {
-  										this.error = this.value.error_msg_network
-  									}
-
-
-  									  									
-  								},
-  								refresh () {
-  									this.name = this.$route.params.name
-  									this.error = null
-  									for (let e in this.alist) {
-  										if (this.name == e) {
-
-  											this.error = null
-  											break
-  										} else {
-  											this.error = this.value.error_msg_null;
-  										}
-  									}
-  									
-  								}
-  							}
-						}
-					},					
-
-					{
-						path: "/about",
-						component: {
-							template: `
-								<div>about</div>
-							`
-						}
-					},
-
-
-					{
-						path: "/studio",
-						component: {
-							template: `
-								<div>studio</div>
-							`
-						}
-					},
-
-					{
-						path: "/contact",
-						component: {
-							template: `
-								<div>contact</div>
-							`
-						}
-					},					
-
-					{
-						path: "/",
-						name: "index",
-						component: {
-							template: `
-								<div>index</div>
-							`
-						}
-					},
-
-
-					{
-						path: "*",
-						component: {
-							template: `
-								<div>404</div>
-							`
-						}
-					},				
-				]
-			})
-		});
-
-		let router = app.$router
-
-		function isEmpty(object) {
-			for (var i in object) {
-				return false;
-			}
-
-			return true;
-		}
-
-		const originalPush = router.__proto__.push;
-		router.__proto__.push = function push(location) {
-  			return originalPush.call(this, location).catch(err => err)
-		}
-
-
-
-
-	</script>
+	<script src="js/markdown-it.js"></script>
+	
+	<!-- <script src="https://cdn.bootcss.com/marked/0.7.0/marked.js"></script> -->
+	<!-- <script src="js/public.js"></script>	 -->
+	<script src="js/main.js"></script>
+
+	
 </body>
 </html>

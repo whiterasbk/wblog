@@ -1,35 +1,35 @@
 {
 	"others": [
 		{
-			"title":"关于markdown",
-			"id":"test.md",
-			"date":"2017/1/11",
-			"img":"https://whiterasbk.github.io/wblog/img/whiter.jpg",
-			"description":"Markdown 是一种轻量级的标记语言，由John Gruber和Aaron Swartz创建，使其成为可读性最大并可再发行的可输入输出的格式。这种语言创建灵感来自于已经存在的带标记的电子邮件文本。Markdown 允许 HTML 语法, 所以使用者如果需要可以直接用 HTML来表示是可以的。Markdown最初由Gruber应用在Perl语言中，但现在已经有多种编程语言应用了。它是开源项目，并以BSD-style许可证的许可方式以插件形式或内容管理系统形式发布。",
-			"sub-title":"自动变黄",
-			"lables":["article/","article/0.md"]
+			"title":"markdown-it的文档",
+			"id":"doc-mdi.md",
+			"date":"2001年2月12日",
+			"img":"https://img04.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/80/iw/90/ih/60/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmbiz_jpg%2FKNSBCu8lFVHjxd5SRneuUgibiaZqwgvxSGRCoOLPGQtYu7yLpJVGRAMtsJDKNNaiaKKQIsDqKg5cibBRuibJ0Qgo5tw%2F0%3Fwx_fmt%3Djpeg&sign=5cfb438895b24098011f5b7ad5063c0c",
+			"description":"Markdown parser, done right. 100% CommonMark support, extensions, syntax plugins & high speed Markdown parser done right. Fast and easy to extend.",
+			"sub-title":"Markdown parser",
+			"lables":["markdown", "fast", "browser"]
 		},
 
 		{
-			"title":"关于boot",
-			"id":"test.html",
-			"date":"2017/1/11",
-			"img":"https://whiterasbk.github.io/wblog/img/whiter.jpg",
+			"title":"bootstrap的文档",
+			"id":"doc-bootcss.html",
+			"date":"2001年2月12日",
+			"img":"https://v3.bootcss.com/favicon.ico",
 			"description":"Bootstrap是Twitter推出的一个开源的用于前端开发的工具包，是一个CSS/HTML框架。它由Twitter的设计师Mark Otto和Jacob Thornton合作开发。Bootstrap提供了优雅的HTML和CSS规范，它即是由动态CSS语言Less写成。Bootstrap一经推出后颇受欢迎，一直是GitHub上的热门开源项目，包括NASA的MSNBC（微软全国广播公司）的Breaking News都使用了该项目。",
-			"sub-title":"自动变蓝",
-			"lables":["article/","article/0.md"]
+			"sub-title":"beautiful",
+			"lables":["fast","beautiful"]
 		}		
 	],
 
 	"java": [
 		{
-			"title":"关于java",
-			"id":"test.html",
-			"date":"2017/1/11",
-			"img":"https://whiterasbk.github.io/wblog/img/whiter.jpg",
+			"title":"java编程语言",
+			"id":"about-java.html",
+			"date":"2001年2月12日",
+			"img":"https://img04.sogoucdn.com/v2/thumb/crop/xy/ai/x/0/y/0/w/120/h/135/iw/90/ih/101.25/t/0/ir/3?t=2&appid=200997&url=http%3A%2F%2Fpic.baike.soso.com%2Fugc%2Fbaikepic2%2F24081%2Fcut-20190812153202-699885329_jpg_534_427_9592.jpg%2F300&referer=http%3A%2F%2Fbaike.sogou.com%2Fv20980.htm%3FfromTitle%3Djava&sign=bebd7109440fa7717f6dfe7a73faaf89",
 			"description":"Java是由Sun公司于1995年5月推出的面向对象的程序设计语言。Java继承了C++语言面向对象技术的核心，又舍弃了C++语言中的指针、运算符重载以及多重继承的特性，同时引入了泛型编程、类型安全的枚举等特性，使Java成为简单、面向对象、分布式、解释性、健壮、安全与系统无关、可移植、高性能、多线程和动态的语言。随着互联网的迅猛发展，Java已经成为重要的网络编程语言，被广泛应用于企业级Web应用开发和移动应用开发。",
-			"sub-title":"自动变绿",
-			"lables":["article/","article/0.md"]
+			"sub-title":"甲骨文",
+			"lables":["slow","powerful", "used"]
 		}			
 	]
 }
