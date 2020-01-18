@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DEMO</title>
+
+	<link rel="stylesheet" href="css/bootstrap3.css">
+</head>
+<body> 
+
+	
+	<div id="app">
+		<a href="#">to#</a>
+		<a href="#/about">#/about</a>
+		<a href="#/search">#/search</a>
+		<a href="#/search?query=whiter">#/search?query=whiter</a>
+		<a href="#/search?query=about">#/search?query=about</a>
+		<a href="#/article">#/article</a>
+		<a href="#/article/whiter">#/article/whiter</a>
+		<a href="#/article/about">#/article/about</a>	
+
+		<form @submit.prevent="onsubmit" >
+			<div class="form-group">
+				enter: <input class="form-control" id="input" type="text">
+				<button class="btn btn-info btn-block" type="submit">submit</button>
+			</div>
+			
+		</form>	
+
+		
+
+		<router-view></router-view>
+		<!-- <div v-html='a' v-for='a in article'>
+			
+		</div> -->
+
+	</div>
+
+
+	<script src="js/jquery.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script>
+		let p = console.log;
+		$("a").addClass('btn btn-success')
+
+		let app = new Vue({
+			el: "#app",
+			data: {
+				data: '<code>yes</code>',
+				article: {
+					k:1,
+					list_path: 'https://whiterasbk.github.io/wblog/res/article-index.json',
+
+				}
+			},
+			methods: {
+				onsubmit () {
+					router.push({path: "/search", query:{key: $("#input")[0].value}}) 
+				},
+				isMatchedArticleId(list, id) {
+					
+					for (let i in list) {
+
+						for (let k in list[i]) {
+							if (list[i][k]['id'] == id) {
+								return true;
+							}
+						}
+
+					}
+
+					return false;					
+				}
+			},
+			router: new VueRouter({
+				routes: [
+					{
+						path: "/search",
+						component: {
+							template: `
+								<div class="panel panel-default">
+
+
+								
+
+
+									<div class="panel-heading">搜索结果</div>
+									<div class="panel-body">
+
+									
+										<div v-if='qlist.length > 0 && qlist[0].title != null'> 
+											<div v-for='item in qlist' class="list-group">
+												<a :href="item.path" class="list-group-item">
+													<h3 class="list-group-item-heading" v-html='item.title'></h3>
+													<small v-html='item["sub-title"]' class="list-group-item-heading"></small>
+													<p v-html='item.title.description' class="list-group-item-text"></p>
+												</a>
+												</div>
+										</div>
+										<div v-if='qlist.length > 0 && qlist[0].title == null' class="list-group">
+											<li class="list-group-item list-group-item-info">
+												正在为您跳转至<{{ key }}>
+											</li>
+										</div>										
+										<div v-if='qlist.length == 0 && error == null' class="list-group">
+											<li class="list-group-item list-group-item-danger">
+												你要找的文章<{{ key }}>自己插上翅膀飞走了
+											</li>
+
+										</div>
+
+										<div v-if='loading && error == null' class="list-group-item list-group-item-warning">
+											加载中...
+										</div>
+
+										<div v-if='error' class="list-group-item list-group-item-danger">
+											{{ error }}
+										</div>	
+
+
+									</div>
+
+									
+
+
+									
+									<div class="panel-body hidden">
+										result: {{ alist }} <br>
+										search: {{ qlist }} <br>
+										error : {{ error }} <br>
+									</div>
+
+									<div v-for='e in qlist' v-html='e' class='hidden' >
+										
+									</div>
+									
+								</div>
+							`,
+							beforeRouteEnter (to, from, next) {
+								p("/search beforeRouteEnter", this)
+								
+								// next({path: "article"})
+								// 
+								// if (this.app.isMatchedArticleId(this.alist, to.query.key)) {
+    				// 				next('article/' + to.query.key)
+    				// 			} else {
+    				// 				next()
+    				// 			}		
+    							next()						
+  							},
+  							beforeRouteLeave (to, from, next) {
+  								p("/search beforeRouteLeave")
+  								next()
+  							},
+  							beforeRouteUpdate (to, from, next) {
+    							p("/search beforeRouteUpdate", this)
+    							// if (this.qlist.title == null) {
+    							// 	next({path: '/article' + this.qlist.id})
+    							// } else {
+    							// 	next()
+    							// }
+    							// p(this)
+    							if (this.app.isMatchedArticleId(this.alist, to.query.key)) {
+    								next('article/' + to.query.key)
+    							} else {
+    								next()
+    							}
+    							
+  							},
+  							created () {
+  								p("/search created", this)
+  								this.init()
+  								this.refresh()
+
+  							},
+  							data() {
+  								p("/search data")
+  								return {
+  									app: this.$router.app,
+  									key: this.$route.query.key,
+  									article: null,
+  									alist: [],
+  									qlist: [],
+  									loading: false,
+  									error: null,
+
+  									value: {
+  										article_list_path: this.$router.app.article.list_path,
+  										highlight: {left: "<code><strong>", right: "</strong></code>"},
+  										error_msg_network: "",
+  										error_msg_whitespace: '请勿输入空格来查询',
+  										error_msg_null: '查询参数设置错误',
+  										loading_msg: ""
+  									}
+  								};
+  							},
+  							watch: {
+  								'$route': 'refresh'
+  							},
+  							methods: {
+  								init () {
+  									// fetch data
+  									let r = this
+  									this.error = null;
+  									this.loading = true;
+  									try {
+  										this.alist = $.ajax({url: this.value.article_list_path, async: false}).responseJSON;
+  										
+  									} catch(_) {
+  										p(_)
+  										this.error == this.value.error_msg_network;
+  									} finally {
+  										this.loading = false;
+  									}
+  									
+  									
+  									setTimeout(function(){
+  										if (this.alist == [] || this.alist == null) {
+  											r.error == r.value.error_msg_network;
+  										}
+  									}, 10 * 1000);
+  									 
+  								},
+  								refresh() {
+  									// this.error = this.article = null;
+  									this.error = null;
+  									this.key = this.$route.query.key;
+  									if (this.key == "") {
+  										p(2333)
+  										this.qlist = []
+  										this.error = this.value.error_msg_whitespace;
+  										return;
+  									} else if (this.key == null) {
+										this.qlist = []
+  										this.error = this.value.error_msg_null;
+  										return;  										
+  									}
+  									
+  									p('refresh', this.key)
+  									this.qlist = [];
+
+  									this.qlist = (this.get_matched())
+
+  									if (!isEmpty(this.qlist) && this.qlist[0].title == null) {
+  										// p(this.app.$router)
+  										// this.app.$router.push(this.qlist.id)
+  										
+  									}
+
+
+  									
+  								},
+  								highlight_keyword (content) {
+  									let key = this.key
+  									let parts = content.split(key)
+  									let result = "";
+  									for (let i = 0; i < parts.length; i++) {
+  										if (i == parts.length - 1) {
+  											result += parts[i]
+  										} else {
+  											result += parts[i] + this.value.highlight.left + key + this.value.highlight.right 
+  										}
+  									}
+
+  									return result;
+  								},
+  								get_matched () {
+  									let key = this.key
+  									let result = [
+  										// {
+  										// 	id: ,
+  										// 	title: ,
+  										// 	'sub-title': ,
+  										// 	description: ,
+  										// }
+  									]
+
+  									
+
+  									for (let classic in this.alist) {
+  										for (let index in this.alist[classic]) {
+  											let c = this.alist[classic][index]
+  											if (c['id'] == key) {
+  												return [{path: 'article/' + c['id']}]
+  											} else {
+  												let pre = {}
+
+  												if (c['title'].match(key) != null || c['sub-title'].match(key) != null || c['description'].match(key) != null) {
+  													pre['title'] = this.highlight_keyword(c['title']);
+  													pre['sub-title'] = this.highlight_keyword(c['sub-title']);
+  													pre['description'] = this.highlight_keyword(c['description']);
+  												}
+												
+  												if (!isEmpty(pre)) {
+  													pre['path'] = 'article/' + c['id']
+  													result.push(pre)
+  												} 
+
+
+  											} 
+  										}
+  									}
+
+  									return result;
+
+  									// if (isEmpty(result)) {
+  									// 	return null;
+  									// } else {
+  									// 	return result;
+  									// }
+
+  									
+  								}
+  							}
+						},
+
+						beforeEnter(to, from, next) {
+							// 路由第一次创建时
+							p("/search beforeEnter", this)
+							
+							next()
+						}
+					},					
+
+					{
+						path: "/article",
+						component: {
+							template: `
+								<div>article</div>
+							`
+						}
+					},					
+
+					{
+						path: "/about",
+						component: {
+							template: `
+								<div>about</div>
+							`
+						}
+					},					
+
+					{
+						path: "/about",
+						component: {
+							template: `
+								<div>about</div>
+							`
+						}
+					},					
+
+					{
+						path: "/about",
+						component: {
+							template: `
+								<div>about</div>
+							`
+						}
+					},
+
+					{
+						path: "*",
+						component: {
+							template: `
+								<div>404</div>
+							`
+						}
+					},				
+				]
+			})
+		});
+
+		let router = app.$router
+
+		function isEmpty(object) {
+			for (var i in object) {
+				return false;
+			}
+
+			return true;
+		}
+
+		const originalPush = router.__proto__.push;
+		router.__proto__.push = function push(location) {
+  			return originalPush.call(this, location).catch(err => err)
+		}
+
+
+	</script>
+</body>
+</html>

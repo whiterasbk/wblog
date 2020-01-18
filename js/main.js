@@ -62,6 +62,8 @@ var public_opts = {
 			is_show_block: false,
 		},
 
+		query_result: {},
+
 		article_list: {},
 
 		current_article: {
@@ -151,22 +153,204 @@ var public_opts = {
 						$attrs.a: {{ $attrs.a }}
 					</div>
 				`,
+				beforeRouteEnter (to, from, next) {
+					p(333333333333333333333333)
+				},
 				beforeRouteUpdate (to, from, next) {
 					let keywords = to.query.keywords
-					p(keywords+"update")
-					// this.props.a = 'bootstrap.js'
-					this.$attrs.a = 'bootstrap.js'
-					p(this.$attrs.a )
-					next()
+					// p(keywords+">update")
+				
+					let app = router.app
+					let result = app.query_result
+					let data = app.article_list
+
+					let a = [
+					{
+						matched: {
+							
+							"title": "关于sex",
+							"description": "",
+							"sub-title": "自动变黄",							
+						},
+						article_id: "",
+						classified: ""
+					}
+					]
+
+					p(keywords+">Update")
+					p(app.article_list)
+
+					for (let i in data) {
+
+						for (let k in data[i]) {
+
+							if (data[i][k]['id'] == (keywords)) {
+								p("cupdate>"+data[i][k]['id'])
+								router.go({ path: 'article/' + keywords})
+							}
+
+
+							let mtitle = data[i][k]['title'].match(keywords)
+							let mstitle = data[i][k]['sub-title'].match(keywords)
+							let mdesc = data[i][k]['description'].match(keywords)
+							let contains = {
+								matched: {
+
+									"title": "关于sex",
+									"description": "",
+									"sub-title": "自动变黄",							
+								},
+								article_id: "",
+								classified: ""
+							}
+
+							if (mtitle != null) {
+
+								let pis = data[i][k]["title"].split(mtitle[0]);
+								for (let h = 0; h < pis.length; h++) {
+									if (h == pis.length) {
+										contains.matched["title"] += pis[h]
+									} else {
+										contains.matched["title"] += pis[h] + "<code> <strong> " + mtitle[0] + "</strong> </code>"
+									}
+
+								}
+							}
+
+							p(contains)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						}
+
+					}
+					// next()
 				}
 			},
 
 			beforeEnter: function(to, from, next) {
 
-				let keywords = to.query.keywords
 
-				p(keywords+"enter")
-				next()
+
+				let keywords = to.query.keywords
+				let app = router.app
+				let result = app.query_result
+				let data = app.article_list
+				
+				let a = [
+					{
+						matched: {
+							
+							"title": "关于sex",
+							"description": "",
+							"sub-title": "自动变黄",							
+						},
+						article_id: "",
+						classified: ""
+					}
+				]
+
+				p(keywords+">Enter")
+				p(app.article_list)
+
+				for (let i in data) {
+
+					for (let k in data[i]) {
+
+						if (data[i][k]['id'] == (keywords)) {
+							p("enter>"+keywords)
+							router.push({ path: 'article', params: { id: keywords }})
+						}
+
+
+						let mtitle = data[i][k]['title'].match(keywords)
+						let mstitle = data[i][k]['sub-title'].match(keywords)
+						let mdesc = data[i][k]['description'].match(keywords)
+						let contains = {
+							matched: {
+							
+							"title": "关于sex",
+							"description": "",
+							"sub-title": "自动变黄",							
+							},
+							article_id: "",
+							classified: ""
+						}
+
+						if (mtitle != null) {
+
+							let pis = data[i][k]["title"].split(mtitle[0]);
+							for (let h = 0; h < pis.length; h++) {
+								if (h == pis.length) {
+									contains.matched["title"] += pis[h]
+								} else {
+									contains.matched["title"] += pis[h] + "<code> <strong> " + mtitle[0] + "</strong> </code>"
+								}
+								
+							}
+						}
+
+						p(contains)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					}
+
+				}
+
+				// next()
 			}
 		},		
 
