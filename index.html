@@ -53,6 +53,10 @@
             transform: translateY(-50%);*/
 		}		
 
+		#article-container p {
+			font-size: 1.2em;
+		}
+
 
 	</style>
 </head>
@@ -548,7 +552,7 @@
 
 								<br/><br/>
 
-								<div v-html='article'></div>
+								<div id='article-container' v-html='article'></div>
 							</div>
 							`,
 							beforeRouteEnter (to, from, next) {
